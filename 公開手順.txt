@@ -1,0 +1,8 @@
+GitHub公開手順
+
+1. mario335599-boopアカウントで note-blue-awakening リポジトリをPublicとして作成。
+2. リポジトリのルートにindex.html、assetsフォルダー、README.md、.nojekyllを配置。
+3. Settings → Pages → Deploy from a branch → main → /(root) → Save。
+4. 公開の完了後、Pages欄に表示されたURLでプレイ可能。
+
+公開するのはこのフォルダーの内容です。開発作業用フォルダーや過去版、大きな単体HTML・ゲームZIPは含めていません。

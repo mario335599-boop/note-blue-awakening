@@ -1,0 +1,173 @@
+[
+  {
+    "sector": 0,
+    "theme": "neon-night-city",
+    "file": "bg-sector-0.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 1,
+    "theme": "molten-foundry",
+    "file": "bg-sector-1.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 2,
+    "theme": "frozen-research",
+    "file": "bg-sector-2.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 3,
+    "theme": "sky-wind-turbines",
+    "file": "bg-sector-3.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 4,
+    "theme": "purple-crystal-mine",
+    "file": "bg-sector-4.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 5,
+    "theme": "underwater-tidal-facility",
+    "file": "bg-sector-5.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 6,
+    "theme": "jungle-mech-ruins",
+    "file": "bg-sector-6.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 7,
+    "theme": "orbital-comms",
+    "file": "bg-sector-7.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  },
+  {
+    "sector": 8,
+    "theme": "crimson-ai-cathedral",
+    "file": "bg-sector-8.png",
+    "width": 1182,
+    "height": 1330,
+    "stageSourceRect": [
+      0,
+      0,
+      1182,
+      665
+    ],
+    "arenaSourceRect": [
+      0,
+      665,
+      1182,
+      665
+    ]
+  }
+]
