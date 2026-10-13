@@ -1,0 +1,32 @@
+{
+  "id": "./",
+  "name": "NOTE — BLUE AWAKENING",
+  "short_name": "NOTE",
+  "lang": "ja",
+  "description": "青い守護者NOTEが街の灯りを取り戻すアクションゲーム。制作：mario",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#030b18",
+  "theme_color": "#08131e",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
