@@ -29,12 +29,24 @@
 .mobile-immersive .screen{padding:16px 12px}
 @media(pointer:coarse){.touch{display:none}.is-playing .touch{display:block}}
 @media(pointer:coarse) and (max-height:390px){.touch{--pad:48px;height:155px}.touch button{padding:10px}}
-@media(pointer:coarse) and (orientation:portrait){
- .mobile-immersive{--play-height:100dvw;--play-width:100dvh;inset:auto;left:100dvw;top:0;transform-origin:0 0;transform:rotate(90deg)}
- .mobile-immersive .touch{--pad:48px;height:155px}
- .mobile-immersive .touch button{padding:10px}
-}
 @media(pointer:coarse){.is-boss-intro .touch{display:block}.is-boss-intro .touch button:not(.touch-buster){opacity:.25;pointer-events:none}}
+
+/* Natural device orientation: fit the full 16:9 scene inside Safari's visible safe area. */
+.mobile-immersive{--play-height:var(--mobile-height,100dvh);--play-width:var(--mobile-width,100dvw);inset:auto;left:0;top:0;right:auto;bottom:auto;transform:none!important;transform-origin:initial;width:var(--mobile-width,100dvw);height:var(--mobile-height,100dvh)}
+.mobile-immersive #stage{inset:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);overflow:hidden}
+.mobile-immersive canvas{flex:none;width:var(--game-width,100%);height:var(--game-height,auto);max-width:100%;max-height:100%;aspect-ratio:16/9;object-fit:contain}
+.mobile-immersive .top{top:max(3px,env(safe-area-inset-top));right:max(4px,env(safe-area-inset-right))}
+.mobile-immersive .hero-art{height:calc(var(--mobile-height,100dvh)*.6)}
+.mobile-immersive .screen{max-height:100%;margin:auto;overflow:auto}
+@media(pointer:coarse) and (orientation:landscape){
+ .mobile-immersive .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+ .mobile-immersive .portrait-card{min-height:115px}.mobile-immersive .portrait-card .face{height:70px}
+ .mobile-immersive .portrait-card b{font-size:10px;margin:6px 8px 3px}.mobile-immersive .portrait-card p{font-size:9px;margin:0 8px 5px}
+ .mobile-immersive .heading{font-size:22px;margin:5px 0 10px}
+ .mobile-immersive .screen{padding:10px max(12px,env(safe-area-inset-right)) 10px max(12px,env(safe-area-inset-left))}
+ .mobile-immersive .actions{margin-top:12px}.mobile-immersive .final-card{min-height:50px;margin-top:8px}
+ .mobile-immersive .hero-layout{grid-template-columns:1.1fr 1fr}.mobile-immersive .title{font-size:52px;margin:10px 0}
+}
 </style></head><body><div id="app"><header class="top"><div class="brand">NOTE<span>BLUE AWAKENING</span></div><nav><button class="small" id="sound">音 ON</button><button class="small" id="help">操作ガイド</button><button class="small" id="pause">一時停止</button><button class="small" id="full">⛶</button></nav></header><main id="stage"><canvas id="game" width="960" height="540" aria-label="NOTE 横スクロールアクションゲーム"></canvas><div id="overlay"></div><div id="message" class="toast"></div><div class="touch" aria-label="ゲーム操作"><div class="touch-move"><button data-key="ArrowLeft" aria-label="左へ移動"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M21 6 9 16l12 10Z"/></svg></button><button data-key="ArrowRight" aria-label="右へ移動"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="m11 6 12 10-12 10Z"/></svg></button></div><div class="touch-actions"><button class="touch-weapon" data-key="KeyQ" aria-label="武器チェンジ"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M6 11a11 11 0 0 1 19-3l3 4M26 21a11 11 0 0 1-19 3l-3-4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M21 12h8V4M11 20H3v8" fill="none" stroke="currentColor" stroke-width="3"/></svg></button><button class="touch-buster" data-key="KeyX" aria-label="バスター・長押しチャージ"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 12h15v8H3zM18 14h7v4h-7zM27 9l3-3M27 23l3 3M28 16h4" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="16" r="2" fill="#07182c"/></svg></button><button class="touch-dash" data-key="KeyC" aria-label="加速"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="m17 3-8 15h7l-2 11 11-17h-8z"/><path d="M2 10h7M1 16h5M3 23h7" stroke="currentColor" stroke-width="2"/></svg></button><button class="touch-jump" data-key="KeyZ" aria-label="ジャンプ"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4 5 15h7v12h8V15h7Z"/></svg></button></div></div></main><footer class="footer"><span><kbd>← →</kbd> 移動</span><span><kbd>Z / Space</kbd> ジャンプ・壁蹴り</span><span><kbd>X</kbd> ショット / 長押しチャージ</span><span><kbd>C / Shift</kbd> ダッシュ</span><span><kbd>Q E</kbd> 武器切替</span><span><kbd>Esc</kbd> ポーズ</span></footer></div>
 <script>
 'use strict';
@@ -404,7 +416,11 @@ let last=0,acc=0;function loop(ms){let dt=Math.min(.05,(ms-last)/1000||.016);las
 window.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space'].includes(e.code))e.preventDefault();keys[e.code]=true;if(e.code==='Escape'&&state==='pause')resume()});window.addEventListener('keyup',e=>keys[e.code]=false);window.addEventListener('blur',()=>{keys={};if(state==='play')pause()});document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='play')pause()});
 
 function isTouchDevice(){return !!(window.matchMedia?.('(pointer:coarse)').matches)}
-function enterMobilePlay(){if(!isTouchDevice())return;document.querySelector('#app').classList.add('mobile-immersive');const app=document.querySelector('#app');const lock=()=>{try{window.screen?.orientation?.lock?.('landscape').catch(()=>{})}catch{}};if(document.fullscreenElement||document.webkitFullscreenElement){lock();return}try{const request=app.requestFullscreen||app.webkitRequestFullscreen;if(request){const result=request.call(app,{navigationUI:'hide'});Promise.resolve(result).then(lock).catch(lock)}else lock()}catch{lock()}}
+
+function fitMobileSurface(width,height,insets={top:0,right:0,bottom:0,left:0}){const w=Math.max(1,width-insets.left-insets.right),h=Math.max(1,height-insets.top-insets.bottom);const gameWidth=Math.min(w,h*16/9);return {width:gameWidth,height:gameWidth*9/16}}
+function sizeMobileViewport(){if(!isTouchDevice())return;const app=document.querySelector('#app'),stage=document.querySelector('#stage'),v=window.visualViewport;const width=v?.width||window.innerWidth,height=v?.height||window.innerHeight;app.style.setProperty('--mobile-width',width+'px');app.style.setProperty('--mobile-height',height+'px');const style=window.getComputedStyle(stage),number=x=>parseFloat(x)||0;const fit=fitMobileSurface(width,height,{top:number(style.paddingTop),right:number(style.paddingRight),bottom:number(style.paddingBottom),left:number(style.paddingLeft)});app.style.setProperty('--game-width',fit.width+'px');app.style.setProperty('--game-height',fit.height+'px')}
+function enterMobilePlay(){if(!isTouchDevice())return;document.querySelector('#app').classList.add('mobile-immersive');sizeMobileViewport()}
+window.addEventListener('resize',sizeMobileViewport);window.addEventListener('orientationchange',()=>requestAnimationFrame(sizeMobileViewport));window.visualViewport?.addEventListener('resize',sizeMobileViewport);
 document.addEventListener('click',e=>{const target=e.target.closest?.('button');if(target&&isTouchDevice()&&(target.classList.contains('primary')||target.classList.contains('card')))enterMobilePlay()},{capture:true});
 const touchPointers=new Map();
 function releaseTouch(id){const entry=touchPointers.get(id);if(!entry)return;touchPointers.delete(id);keys[entry.code]=Array.from(touchPointers.values()).some(p=>p.code===entry.code);if(!Array.from(touchPointers.values()).some(p=>p.button===entry.button))entry.button.classList.remove('held')}
@@ -413,6 +429,6 @@ document.querySelectorAll('[data-key]').forEach(button=>{button.addEventListener
 document.querySelector('.touch').addEventListener('touchstart',e=>e.preventDefault(),{passive:false});
 document.querySelector('.touch').addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
 window.addEventListener('blur',clearTouch);document.addEventListener('visibilitychange',()=>{if(document.hidden)clearTouch()});
-document.querySelector('#pause').onclick=pause;document.querySelector('#help').onclick=guide;document.querySelector('#sound').onclick=()=>{muted=!muted;if(muted){stopCharge();stopPreviewMusic();}document.querySelector('#sound').textContent='音 '+(muted?'OFF':'ON');if(!muted){ensureAudio();audio?.resume();sound();if(state==='preview')playPreviewMusic()}};document.querySelector('#full').onclick=()=>{if(isTouchDevice()){enterMobilePlay();return}if(document.fullscreenElement)document.exitFullscreen();else document.querySelector('#app').requestFullscreen?.().catch(()=>toast('この環境では全画面表示に対応していません。'))};document.addEventListener('pointerdown',()=>{if(!audio&&!muted)sound(1,.01,'sine',.001)},{once:true});
+document.querySelector('#pause').onclick=pause;document.querySelector('#help').onclick=guide;document.querySelector('#sound').onclick=()=>{muted=!muted;if(muted){stopCharge();stopPreviewMusic();}document.querySelector('#sound').textContent='音 '+(muted?'OFF':'ON');if(!muted){ensureAudio();audio?.resume();sound();if(state==='preview')playPreviewMusic()}};document.querySelector('#full').onclick=()=>{if(isTouchDevice()){enterMobilePlay();const app=document.querySelector('#app');if(!document.fullscreenElement&&app.requestFullscreen)app.requestFullscreen({navigationUI:'hide'}).then(sizeMobileViewport).catch(()=>{});return}if(document.fullscreenElement)document.exitFullscreen();else document.querySelector('#app').requestFullscreen?.().catch(()=>toast('この環境では全画面表示に対応していません。'))};document.addEventListener('pointerdown',()=>{if(!audio&&!muted)sound(1,.01,'sine',.001)},{once:true});
 box('<div style="text-align:center"><div class="eyebrow">NOTE / BLUE AWAKENING</div><h2 class="heading">青い守護者を起動中</h2><p id="asset-status" class="asset-loading">アート読み込み 0 / 23</p></div>');loadAssets();requestAnimationFrame(loop);
 </script></body></html>

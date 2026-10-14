@@ -6,7 +6,7 @@
   "description": "青い守護者NOTEが街の灯りを取り戻すアクションゲーム。制作：mario",
   "start_url": "./",
   "scope": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#030b18",
   "theme_color": "#08131e",
   "icons": [
@@ -29,5 +29,5 @@
       "purpose": "maskable"
     }
   ],
-  "orientation": "landscape"
+  "orientation": "any"
 }
