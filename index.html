@@ -219,7 +219,7 @@ function burst(x,y,color,n=12){for(let i=0;i<n;i++)particles.push({x,y,vx:rand(-
 function hurt(d,x){if(player.inv>0||state!=='play')return;player.hp-=d;player.inv=1.15;player.vy=-210;player.vx=player.x<x?-210:210;player.lock=.16;shake=7;burst(player.x+14,player.y+25,'#9bdfff');sfx('hit');if(player.hp<=0)die()}
 const TECH=[
 ['連鎖する電撃槍','周囲を撃つ雷撃フィールド'],['地面を転がる火炎輪','前方に噴き上がる三連火柱'],['扇状に飛ぶ氷の牙・敵を凍結','接触攻撃と弾消しを兼ねる氷晶装甲'],['戻ってくる風のブーメラン','移動しながら削る大型竜巻'],['弾を引き寄せる重力弾','敵と弾を吸い込むブラックホール'],['浮上・反射する泡弾','周囲を巡り敵弾を防ぐ泡のバリア'],['敵を追う三方向の種子弾','地面から伸びる三連の鋼鉄蔓'],['壁で反射するプリズム弾','扇形に掃射する七色レーザー']];
-function fire(charged=false){if(player.shotCD>0)return;const id=available()[weapon]??-1,cost=id<0?0:charged?28:10;if(player.energy<cost){sound(140);return}player.energy-=cost;player.shotAnim=.23;player.shotCD=charged?.45:id<0?.15:.28;const dir=player.dir,cx=player.x+14+dir*25,cy=player.y+23,color=id<0?'#85faff':STAGES[id].color;
+function fire(charged=false){if(player.shotCD>0)return;const id=available()[weapon]??-1,cost=id<0?0:charged?28:10;if(player.energy<cost){sound(140);return}player.energy-=cost;player.shotAnim=.23;player.shotCD=charged?.45:id<0?.15:.28;const dir=player.wall&&!player.ground?-player.wall:player.dir,cx=player.x+14+dir*25,cy=player.y+23,color=id<0?'#85faff':STAGES[id].color;
 const add=(kind,r=8,vx=dir*400,vy=0,extra={})=>{const b={x:cx-r,y:cy-r,w:r*2,h:r*2,r,vx,vy,life:2.5,age:0,damage:charged?4:3,id,friendly:true,color,kind,hits:new Map(),charged,...extra};bullets.push(b);return b};
 if(id<0)add('buster',charged?21:4,dir*620,0,{damage:charged?5:1});
 if(id===0){if(charged){add('storm',65,0,0,{life:1.8,damage:2,pierce:true,attached:true})}else add('bolt',9,dir*590,0,{chain:2})}
